@@ -7,14 +7,14 @@
         echo json_encode(['errors' => ['Método no permitido']]); 
         exit; 
     } 
-    $$username = isset($$_POST['username']) ? trim((string)$username) : ''; 
-    $$email = isset($$_POST['email']) ? trim((string)$email) : ''; 
-    $$password = isset($$_POST['password']) ? $_POST['password'] : ''; 
-    $$confirm = isset($$_POST['confirm']) ? $_POST['confirm'] : ''; 
-    $errors = []; if ($$username === '') $$errors[] = 'Usuario es requerido'; 
-    if ($$email === '' || !filter_var($$email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Email válido es requerido'; 
-    if ($$password === '' || mb_strlen((string)$$password) < 8) $errors[] = 'La contraseña debe tener al menos 8 caracteres'; 
-    if ($$password !== $$confirm) $errors[] = 'Las contraseñas no coinciden'; 
+    $username = isset($_POST['username']) ? trim((string)$username) : ''; 
+    $email = isset($_POST['email']) ? trim((string)$email) : ''; 
+    $password = isset($_POST['password']) ? $_POST['password'] : ''; 
+    $confirm = isset($_POST['confirm']) ? $_POST['confirm'] : ''; 
+    $errors = []; if ($username === '') $errors[] = 'Usuario es requerido'; 
+    if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Email válido es requerido'; 
+    if ($password === '' || mb_strlen((string)$password) < 8) $errors[] = 'La contraseña debe tener al menos 8 caracteres'; 
+    if ($password !== $confirm) $errors[] = 'Las contraseñas no coinciden'; 
     if (!empty($errors)) 
     { 
         http_response_code(400); 
@@ -24,8 +24,8 @@
     try 
     { 
         $pdo = dbConnect(); 
-        $$stmt = $$pdo->prepare('SELECT id FROM users WHERE username = :u OR email = :e'); 
-        $$stmt->execute(['u' => $$username, 'e' => $email]); 
+        $stmt = $$pdo->prepare('SELECT id FROM users WHERE username = :u OR email = :e'); 
+        $stmt->execute(['u' => $username, 'e' => $email]); 
         if ($stmt->fetch()) 
         { 
             http_response_code(400); 
