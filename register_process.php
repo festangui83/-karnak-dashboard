@@ -4,7 +4,7 @@
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') 
     { 
         http_response_code(405); 
-        echo json_encode(['errors' => ['Método no permitido']]); 
+        echo json_encode(['errors' => ['Metodo no permitido']]); 
         exit; 
     } 
     $username = isset($_POST['username']) ? trim((string)$username) : ''; 
@@ -12,7 +12,7 @@
     $password = isset($_POST['password']) ? $_POST['password'] : ''; 
     $confirm = isset($_POST['confirm']) ? $_POST['confirm'] : ''; 
     $errors = []; if ($username === '') $errors[] = 'Usuario es requerido'; 
-    if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Email válido es requerido'; 
+    if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Email valido es requerido'; 
     if ($password === '' || mb_strlen((string)$password) < 8) $errors[] = 'La contraseña debe tener al menos 8 caracteres'; 
     if ($password !== $confirm) $errors[] = 'Las contraseñas no coinciden'; 
     if (!empty($errors)) 
@@ -24,7 +24,7 @@
     try 
     { 
         $pdo = dbConnect(); 
-        $stmt = $$pdo->prepare('SELECT id FROM users WHERE username = :u OR email = :e'); 
+        $stmt = $pdo->prepare('SELECT id FROM users WHERE username = :u OR email = :e'); 
         $stmt->execute(['u' => $username, 'e' => $email]); 
         if ($stmt->fetch()) 
         { 
@@ -32,9 +32,9 @@
             echo json_encode(['errors' => ['Usuario o correo ya registrados']]); 
             exit; 
         } 
-        $$hash = password_hash($$password, PASSWORD_BCRYPT); 
-        $$stmt = $$pdo->prepare('INSERT INTO users (username, email, password_hash) VALUES (:u, :e, :p)'); 
-        $$stmt->execute(['u' => $$username, 'e' => $$email, 'p' => $$hash]); 
+        $hash = password_hash($password, PASSWORD_BCRYPT); 
+        $stmt = $pdo->prepare('INSERT INTO users (username, email, password_hash) VALUES (:u, :e, :p)'); 
+        $stmt->execute(['u' => $username, 'e' => $email, 'p' => $hash]); 
         echo json_encode(['success' => true]); 
         } 
         catch (PDOException $e) 
