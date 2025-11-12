@@ -1,1 +1,76 @@
-<!DOCTYPE html> <html lang="es"> <head> <meta charset="UTF-8" /> <title>Login</title> <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <link rel="stylesheet" href="assets/css/styles.css" /> </head> <body> <div class="container"> <form id="loginForm" method="post" action="login.php" autocomplete="on"> <h2>Iniciar sesión</h2> <label>Usuario o Email <input type="text" name="username" required /> </label> <label>Contraseña <input type="password" name="password" required minlength="8" /> </label> <button type="submit">Entrar</button> </form> </div> <script> document.getElementById('loginForm').addEventListener('submit', async function(e){ e.preventDefault(); const form = new FormData(this); const data = Object.fromEntries(form.entries()); const r = await fetch('login.php', { method: 'POST', headers: {'Accept':'application/json'}, body: new URLSearchParams(data) }); const res = await r.json().catch(()=>({ errors: ['Respuesta no válida'] })); if (r.ok && res.success) { Swal.fire('Éxito', 'Inicio de sesión correcto', 'success').then(()=>{ window.location = 'dashboard.php'; }); } else { Swal.fire('Error', (res.errors?.join('<br>') || 'Error'), 'error'); } }); </script> </body> </html>
+<!DOCTYPE html> 
+<html lang="es"> 
+    <head> 
+        <meta charset="UTF-8" /> 
+        <meta charset="utf-8" />
+        <title>Login | Karnak</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+        <!-- Bootstrap Css -->
+        <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <!-- Icons Css -->
+        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <!-- App Css-->
+        <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" /> 
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>  
+    </head> 
+    <body data-topbar="colored">
+        <div class="account-pages"></div>
+        <div class="wrapper-page">
+            <div class="card">
+                <div class="card-body">
+                    <div class="auth-logo">
+                        <h3 class="text-center">
+                            <a href="index.html" class="logo d-block my-4">
+                                <img src="assets/images/logo-dark.png" class="logo-dark mx-auto" height="30" alt="logo-dark">
+                                <img src="assets/images/logo-light.png" class="logo-light mx-auto" height="30" alt="logo-light">
+                            </a>
+                        </h3>
+                    </div>
+                    <div class="p-3">
+                        <h4 class="text-muted font-size-18 text-center">Welcome Back !</h4>
+                        <p class="text-muted text-center">Sign in to continue to Karnak.</p>
+
+                        <form class="form-horizontal" id="loginForm" method="post" action="login.php" autocomplete="on">
+
+                            <div class="mb-3">
+                                <label class="form-label" for="username">User or Email</label>
+                                <input class="form-control" type="text" name="username" required placeholder="Enter username or email">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="userpassword">Password</label>
+                                <input class="form-control" type="password" name="password" required minlength="8" placeholder="Enter password">
+                            </div>
+
+                            <div class="mb-3 row">
+                                <div class="col-6 text-end">
+                                    <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Log In</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <p class="text-white-50">Don't have an account ? <a href="register.html" class="text-white"> Signup Now
+                    </a> </p>
+                <p class="text-muted">
+                    © <script>document.write(new Date().getFullYear())</script> Karnak. Crafted with <i class="mdi mdi-heart text-primary"></i> by festangui
+                </p>
+            </div>
+        </div>
+        <script src="assets/libs/jquery/jquery.min.js"></script>
+        <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/libs/metismenu/metisMenu.min.js"></script>
+        <script src="assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="assets/libs/node-waves/waves.min.js"></script>
+        <script src="assets/libs/jquery-sparkline/jquery.sparkline.min.js"></script>
+        <!-- App js -->
+        <script src="assets/js/app.js"></script>
+        <script> document.getElementById('loginForm').addEventListener('submit', async function(e){ e.preventDefault(); const form = new FormData(this); const data = Object.fromEntries(form.entries()); const r = await fetch('login.php', { method: 'POST', headers: {'Accept':'application/json'}, body: new URLSearchParams(data) }); const res = await r.json().catch(()=>({ errors: ['Respuesta no válida'] })); if (r.ok && res.success) { Swal.fire('Éxito', 'Inicio de sesión correcto', 'success').then(()=>{ window.location = 'dashboard.php'; }); } else { Swal.fire('Error', (res.errors?.join('<br>') || 'Error'), 'error'); } }); </script> 
+    </body> 
+</html>
